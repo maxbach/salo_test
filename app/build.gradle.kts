@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
+    id("kotlin-kapt")
 }
 
 android {
@@ -20,10 +20,15 @@ android {
 
 }
 
+val daggerVersion = "2.27"
+
 dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.1")
+
+    implementation("com.google.dagger:dagger:$daggerVersion")
+    add("kapt", "com.google.dagger:dagger-compiler:$daggerVersion")
 
 }
