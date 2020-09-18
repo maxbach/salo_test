@@ -31,4 +31,6 @@ dependencies {
     implementation("com.google.dagger:dagger:$daggerVersion")
     add("kapt", "com.google.dagger:dagger-compiler:$daggerVersion")
 
+    implementation("ru.terrakok.cicerone:cicerone:5.1.1")
+
 }
