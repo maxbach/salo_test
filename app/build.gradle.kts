@@ -15,21 +15,29 @@ android {
         targetSdkVersion(29)
         versionCode = 1
         versionName = "1.0"
-
     }
 
-}
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
-val daggerVersion = "2.27"
-val moshiVersion = "1.9.3"
-val retrofitVersion = "2.9.0"
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    buildFeatures.viewBinding = true
+
+}
 
 dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.1")
+    implementation("androidx.fragment:fragment-ktx:1.2.5")
 
+    val daggerVersion = "2.27"
     implementation("com.google.dagger:dagger:$daggerVersion")
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
@@ -38,11 +46,22 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxjava:3.0.6")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
 
+    val moshiVersion = "1.9.3"
     implementation("com.squareup.moshi:moshi:$moshiVersion")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion")
 
+    val retrofitVersion = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
+
+    val lifecycle_version = "2.2.0"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
+
+    implementation("com.rengwuxian.materialedittext:library:2.1.4")
+    implementation("com.google.android.material:material:1.2.1")
+
+    implementation("com.jakewharton.timber:timber:4.7.1")
 
 }

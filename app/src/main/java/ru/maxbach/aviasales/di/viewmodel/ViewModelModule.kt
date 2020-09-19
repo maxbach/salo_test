@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import ru.maxbach.aviasales.MainActivityViewModel
+import ru.maxbach.aviasales.feature.search.SearchViewModel
 
 @Suppress("detekt.TooManyFunctions")
 @Module
@@ -12,7 +12,7 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainActivityViewModel::class)
-    fun mainActivityViewModel(mainActivityViewModel: MainActivityViewModel): ViewModel
+    @ViewModelKey(SearchViewModel::class)
+    fun bindSearchViewModel(searchViewModel: SearchViewModel): ViewModel
 
 }
