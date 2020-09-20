@@ -1,13 +1,16 @@
 package ru.maxbach.aviasales.network.model
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlinx.android.parcel.Parcelize
 
 @JsonClass(generateAdapter = true)
+@Parcelize
 data class City(
         val id: Long,
         @Json(name = "fullname") val fullName: String,
         val location: Location,
         @Json(name = "iata") val aliases: List<String> = emptyList(),
         @Json(name = "city") val name: String
-)
+) : Parcelable

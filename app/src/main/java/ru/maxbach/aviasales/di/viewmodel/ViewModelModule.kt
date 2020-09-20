@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.maxbach.aviasales.feature.main.MainScreenViewModel
+import ru.maxbach.aviasales.feature.plane.PlaneViewModel
 import ru.maxbach.aviasales.feature.search.SearchViewModel
 
 @Module
@@ -19,5 +20,10 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
     fun bindSearchViewModel(searchViewModel: SearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PlaneViewModel::class)
+    fun bindPlaneViewModel(planeViewModel: PlaneViewModel): ViewModel
 
 }
