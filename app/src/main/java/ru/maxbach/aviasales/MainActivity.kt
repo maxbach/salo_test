@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 )
         )
 
-        router.newRootScreen(Screens.Search())
+        router.newRootScreen(Screens.Main())
     }
 
     private fun injectDi() {

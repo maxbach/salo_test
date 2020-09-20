@@ -5,6 +5,7 @@ import ru.maxbach.aviasales.di.AppComponent
 import ru.maxbach.aviasales.di.DaggerAppComponent
 import ru.maxbach.aviasales.di.viewmodel.ViewModelFactory
 import ru.maxbach.aviasales.di.viewmodel.ViewModelFactoryProvider
+import timber.log.Timber
 import javax.inject.Inject
 
 class App : Application(), ViewModelFactoryProvider {
@@ -20,6 +21,8 @@ class App : Application(), ViewModelFactoryProvider {
         super.onCreate()
 
         component.inject(this)
+        //TODO: add only on debug
+        Timber.plant(Timber.DebugTree())
     }
 
 }

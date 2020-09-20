@@ -28,7 +28,7 @@ interface Destroyable {
      */
     fun <T> Flowable<T>.untilDestroy(
             onNext: (T) -> Unit = Functions.emptyConsumer<T>()::accept,
-            onError: (Throwable) -> Unit = Timber::wtf,
+            onError: (Throwable) -> Unit = Timber::e,
             onComplete: () -> Unit = Functions.EMPTY_ACTION::run
     ): Disposable
 
@@ -44,7 +44,7 @@ interface Destroyable {
      */
     fun <T> Observable<T>.untilDestroy(
             onNext: (T) -> Unit = Functions.emptyConsumer<T>()::accept,
-            onError: (Throwable) -> Unit = Timber::wtf,
+            onError: (Throwable) -> Unit = Timber::e,
             onComplete: () -> Unit = Functions.EMPTY_ACTION::run
     ): Disposable
 
@@ -59,7 +59,7 @@ interface Destroyable {
      */
     fun <T> Single<T>.untilDestroy(
             onSuccess: (T) -> Unit = Functions.emptyConsumer<T>()::accept,
-            onError: (Throwable) -> Unit = Timber::wtf
+            onError: (Throwable) -> Unit = Timber::e
     ): Disposable
 
     /**
@@ -73,7 +73,7 @@ interface Destroyable {
      */
     fun Completable.untilDestroy(
             onComplete: () -> Unit = Functions.EMPTY_ACTION::run,
-            onError: (Throwable) -> Unit = Timber::wtf
+            onError: (Throwable) -> Unit = Timber::e
     ): Disposable
 
     /**
@@ -88,7 +88,7 @@ interface Destroyable {
      */
     fun <T> Maybe<T>.untilDestroy(
             onSuccess: (T) -> Unit = Functions.emptyConsumer<T>()::accept,
-            onError: (Throwable) -> Unit = Timber::wtf,
+            onError: (Throwable) -> Unit = Timber::e,
             onComplete: () -> Unit = Functions.EMPTY_ACTION::run
     ): Disposable
 

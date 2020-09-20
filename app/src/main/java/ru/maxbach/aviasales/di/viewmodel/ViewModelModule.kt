@@ -4,11 +4,16 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import ru.maxbach.aviasales.feature.main.MainScreenViewModel
 import ru.maxbach.aviasales.feature.search.SearchViewModel
 
-@Suppress("detekt.TooManyFunctions")
 @Module
 interface ViewModelModule {
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainScreenViewModel::class)
+    fun bindMainScreenViewModel(mainScreenViewModel: MainScreenViewModel): ViewModel
 
     @Binds
     @IntoMap

@@ -5,10 +5,11 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
-import ru.maxbach.aviasales.network.CitySearchApi
+import ru.maxbach.aviasales.network.SuggestionsApi
 import javax.inject.Singleton
 
 @Module
@@ -16,8 +17,10 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    //TODO: turn on logging interceptor only in debug mode
     fun providePublicClient(): OkHttpClient = OkHttpClient
             .Builder()
+            .addInterceptor(HttpLoggingInterceptor())
             .build()
 
     @Singleton
@@ -38,6 +41,6 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideApi(retrofit: Retrofit): CitySearchApi = retrofit.create(CitySearchApi::class.java)
+    fun provideApi(retrofit: Retrofit): SuggestionsApi = retrofit.create(SuggestionsApi::class.java)
 
 }

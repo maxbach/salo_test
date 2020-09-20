@@ -1,17 +1,26 @@
 package ru.maxbach.aviasales.navigation
 
+import ru.maxbach.aviasales.feature.main.MainFragment
 import ru.maxbach.aviasales.feature.planes.PlanesFragment
 import ru.maxbach.aviasales.feature.search.SearchFragment
+import ru.maxbach.aviasales.network.model.City
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
+
+    class Main : SupportAppScreen() {
+        override fun getFragment() = MainFragment()
+    }
 
     class Search : SupportAppScreen() {
         override fun getFragment() = SearchFragment()
     }
 
-    class Planes : SupportAppScreen() {
-        override fun getFragment() = PlanesFragment()
+    class Planes(
+            private val cityFrom: City,
+            private val cityTo: City
+    ) : SupportAppScreen() {
+        override fun getFragment() = PlanesFragment.create(cityFrom, cityTo)
     }
 
 }

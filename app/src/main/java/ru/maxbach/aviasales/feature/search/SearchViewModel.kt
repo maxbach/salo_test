@@ -1,38 +1,40 @@
 package ru.maxbach.aviasales.feature.search
 
-import androidx.lifecycle.MutableLiveData
-import ru.maxbach.aviasales.base.viewmodel.RxViewModel
-import ru.maxbach.aviasales.utils.toImmutable
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+import ru.maxbach.aviasales.base.viewmodel.BaseViewModel
+import ru.maxbach.aviasales.domain.UploadSuggestionsUseCase
+import ru.maxbach.aviasales.navigation.ScreenResult
+import ru.maxbach.aviasales.network.model.City
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
-        private val coordinator: SearchCoordinator
-) : RxViewModel() {
+        private val coordinator: SearchCoordinator,
+        private val uploadSuggestionsUseCase: UploadSuggestionsUseCase,
+        private val screenResult: ScreenResult<City>
+) : BaseViewModel<SearchScreenState>(SearchScreenState()) {
 
-    private val getMockedList = listOf(
-            "Москва",
-            "Питер",
-            "Находка",
-            "Владик",
-            "Хабаровск",
-            "Минск",
-            "Буденовск"
-    )
-
-    private val _state = MutableLiveData<SearchScreenState>()
-    val state = _state.toImmutable()
+    private val cityInputSubject = BehaviorSubject.create<String>()
 
     init {
-        _state.value = SearchScreenState(
-                suggestionsFrom = getMockedList,
-                suggestionsTo = getMockedList,
-                buttonEnabled = true
-        )
+        cityInputSubject
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
+                .switchMapSingle(uploadSuggestionsUseCase::invoke)
+                .observeOn(AndroidSchedulers.mainThread())
+                .untilDestroy(onNext = { newSuggestions ->
+                    updateState { SearchScreenState(newSuggestions) }
+                })
     }
 
-    fun buttonClicked() {
-        coordinator.openPlanes()
+    fun onCityNewInput(newText: CharSequence?) {
+        newText?.let { cityInputSubject.onNext(it.toString()) }
     }
 
+    fun onCityClicked(city: City) {
+        screenResult.onNext(city)
+        coordinator.close()
+    }
 
 }

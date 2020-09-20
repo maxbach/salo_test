@@ -1,7 +1,7 @@
 package ru.maxbach.aviasales.feature.search
 
+import ru.maxbach.aviasales.network.model.City
+
 data class SearchScreenState(
-        val suggestionsFrom: List<String> = emptyList(),
-        val suggestionsTo: List<String> = emptyList(),
-        val buttonEnabled: Boolean = false
+        val suggestions: List<City> = emptyList()
 )
