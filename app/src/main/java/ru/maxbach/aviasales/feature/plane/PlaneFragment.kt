@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Dash
 import com.google.android.gms.maps.model.Gap
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import ru.maxbach.aviasales.R
 import ru.maxbach.aviasales.network.model.City
 import ru.maxbach.aviasales.utils.viewModels
 
@@ -26,6 +29,8 @@ class PlaneFragment : SupportMapFragment() {
         }
     }
 
+    private var planeMarker: Marker? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,19 +47,35 @@ class PlaneFragment : SupportMapFragment() {
 
         viewModel.state.observe(viewLifecycleOwner, { state ->
             getMapAsync {
-                it.addMarker(MarkerOptions().position(state.cityFromLocation))
-                it.addMarker(MarkerOptions().position(state.cityToLocation))
+                if (planeMarker != null) {
+                    planeMarker!!.apply {
+                        position = state.plane.location
+                        rotation = state.plane.angle
+                    }
+                } else {
+                    it.addMarker(MarkerOptions().position(state.cityFromLocation))
+                    it.addMarker(MarkerOptions().position(state.cityToLocation))
 
-                it.setLatLngBoundsForCameraTarget(LatLngBounds.builder()
-                        .include(state.cityFromLocation)
-                        .include(state.cityToLocation)
-                        .build()
-                )
+                    it.setLatLngBoundsForCameraTarget(LatLngBounds.builder()
+                            .include(state.cityFromLocation)
+                            .include(state.cityToLocation)
+                            .build()
+                    )
 
-                it.addPolyline(PolylineOptions()
-                        .add(*state.pointsOfCurve.toTypedArray())
-                        .pattern(listOf(Dash(20f), Gap(20f)))
-                )
+                    it.addPolyline(PolylineOptions()
+                            .add(*state.pointsOfCurve.toTypedArray())
+                            .pattern(listOf(Dash(10f), Gap(20f)))
+                    )
+
+                    planeMarker = it.addMarker(MarkerOptions()
+                            .position(state.plane.location)
+                            .rotation(state.plane.angle)
+                            .anchor(0.5f, 0.5f)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_plane))
+                    )
+                }
+
+
             }
         })
     }
