@@ -52,8 +52,7 @@ class PlaneFragment : SupportMapFragment() {
                 )
 
                 it.addPolyline(PolylineOptions()
-                        .add(state.cityFromLocation, state.cityToLocation)
-                        .geodesic(true)
+                        .add(*state.pointsOfCurve.toTypedArray())
                         .pattern(listOf(Dash(20f), Gap(20f)))
                 )
             }

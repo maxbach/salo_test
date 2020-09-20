@@ -1,11 +1,14 @@
 package ru.maxbach.aviasales.feature.plane
 
 import ru.maxbach.aviasales.base.viewmodel.BaseViewModel
+import ru.maxbach.aviasales.domain.GetPointsOfCurveUseCase
 import ru.maxbach.aviasales.network.model.City
 import ru.maxbach.aviasales.network.model.toLatLng
 import javax.inject.Inject
 
-class PlaneViewModel @Inject constructor() : BaseViewModel<PlaneScreenState>(PlaneScreenState()) {
+class PlaneViewModel @Inject constructor(
+        private val getPointsOfCurveUseCase: GetPointsOfCurveUseCase
+) : BaseViewModel<PlaneScreenState>(PlaneScreenState()) {
 
     private lateinit var cityFrom: City
     private lateinit var cityTo: City
@@ -14,7 +17,16 @@ class PlaneViewModel @Inject constructor() : BaseViewModel<PlaneScreenState>(Pla
         this.cityFrom = cityFrom
         this.cityTo = cityTo
 
-        updateState { PlaneScreenState(cityFrom.location.toLatLng(), cityTo.location.toLatLng()) }
+        val cityFromLatLng = cityFrom.location.toLatLng()
+        val cityToLatLng = cityTo.location.toLatLng()
+
+        updateState {
+            PlaneScreenState(
+                    cityFromLatLng,
+                    cityToLatLng,
+                    getPointsOfCurveUseCase.invoke(cityFromLatLng, cityToLatLng)
+            )
+        }
     }
 
 }
