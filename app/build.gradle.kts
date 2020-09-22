@@ -73,4 +73,9 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-maps:17.0.0")
     implementation("com.google.maps.android:android-maps-utils:0.5")
+
+    val adapterDelegateVersion = "4.3.0"
+    implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$adapterDelegateVersion")
+    implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegateVersion")
+
 }

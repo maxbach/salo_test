@@ -6,6 +6,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import ru.maxbach.aviasales.R
 import ru.maxbach.aviasales.databinding.FragmentSearchBinding
+import ru.maxbach.aviasales.utils.showSoftInput
 import ru.maxbach.aviasales.utils.viewBinding
 import ru.maxbach.aviasales.utils.viewModels
 
@@ -22,13 +23,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         binding.setup()
 
         viewModel.state.observe(viewLifecycleOwner, { state ->
-            adapter.submitList(state.suggestions)
+            adapter.items = state.suggestions
         })
     }
 
     private fun FragmentSearchBinding.setup() {
         suggestionsList.adapter = adapter
         cityInput.doOnTextChanged { text, _, _, _ -> viewModel.onCityNewInput(text) }
+        closeIcon.setOnClickListener {
+            viewModel.closeScreen()
+        }
+        cityInput.showSoftInput()
     }
 
 }
