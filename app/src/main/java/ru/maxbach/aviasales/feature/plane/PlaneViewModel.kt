@@ -26,8 +26,8 @@ class PlaneViewModel @Inject constructor(
         val curve = getPointsOfCurveUseCase.invoke(cityFromLatLng, cityToLatLng)
         updateState {
             PlaneScreenState(
-                    cityFromLatLng,
-                    cityToLatLng,
+                    CityMapMarker(cityFromLatLng, cityFrom.name.take(3)),
+                    CityMapMarker(cityToLatLng, cityTo.name.take(3)),
                     curve
             )
         }

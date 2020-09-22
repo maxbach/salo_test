@@ -1,9 +1,13 @@
 package ru.maxbach.aviasales.feature.plane
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import androidx.core.os.bundleOf
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Dash
 import com.google.android.gms.maps.model.Gap
@@ -13,6 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import ru.maxbach.aviasales.R
 import ru.maxbach.aviasales.network.model.City
+import ru.maxbach.aviasales.utils.toBitmap
 import ru.maxbach.aviasales.utils.viewModels
 
 class PlaneFragment : SupportMapFragment() {
@@ -53,19 +58,38 @@ class PlaneFragment : SupportMapFragment() {
                         rotation = state.plane.angle
                     }
                 } else {
-                    it.addMarker(MarkerOptions().position(state.cityFromLocation))
-                    it.addMarker(MarkerOptions().position(state.cityToLocation))
+                    it.addMarker(MarkerOptions()
+                            .position(state.cityFrom.location)
+                            .icon(createCityMarker(state.cityFrom.shortName))
+                            .alpha(0.7f)
+                            .anchor(0.5f, 0.5f)
+                    )
+                    it.addMarker(MarkerOptions()
+                            .position(state.cityTo.location)
+                            .icon(createCityMarker(state.cityTo.shortName))
+                            .alpha(0.8f)
+                            .anchor(0.5f, 0.5f)
+                    )
 
-                    it.setLatLngBoundsForCameraTarget(LatLngBounds.builder()
-                            .include(state.cityFromLocation)
-                            .include(state.cityToLocation)
-                            .build()
+                    it.moveCamera(
+                            CameraUpdateFactory.newLatLngBounds(
+                                    LatLngBounds.builder()
+                                            .include(state.cityFrom.location)
+                                            .include(state.cityTo.location)
+                                            .build(),
+                                    20
+                            )
                     )
 
                     it.addPolyline(PolylineOptions()
                             .add(*state.pointsOfCurve.toTypedArray())
                             .pattern(listOf(Dash(10f), Gap(20f)))
                     )
+
+                    it.uiSettings.isMapToolbarEnabled = false
+                    it.uiSettings.isRotateGesturesEnabled = false
+                    it.isBuildingsEnabled = false
+                    it.setMaxZoomPreference(9f)
 
                     planeMarker = it.addMarker(MarkerOptions()
                             .position(state.plane.location)
@@ -79,5 +103,12 @@ class PlaneFragment : SupportMapFragment() {
             }
         })
     }
+
+    private fun createCityMarker(cityShortName: String): BitmapDescriptor = (LayoutInflater
+            .from(requireContext())
+            .inflate(R.layout.map_city_marker, null) as TextView)
+            .apply { text = cityShortName }
+            .toBitmap()
+            .let(BitmapDescriptorFactory::fromBitmap)
 
 }

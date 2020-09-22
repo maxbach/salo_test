@@ -64,7 +64,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
 
-    implementation("com.rengwuxian.materialedittext:library:2.1.4")
     implementation("com.google.android.material:material:1.2.1")
 
     implementation("com.jakewharton.timber:timber:4.7.1")

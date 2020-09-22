@@ -11,17 +11,20 @@ import javax.inject.Inject
 class MovePlaneUseCase @Inject constructor() {
 
     operator fun invoke(curve: List<LatLng>): Observable<PlanePosition> = Observable
-            .intervalRange(0, 1000, 0, 1000 / 25, TimeUnit.MILLISECONDS)
+            .intervalRange(0, 1001, 0, 1000 / 25, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.computation())
             .zipWith(Observable.fromIterable(
                     curve.mapIndexed { index, latLng -> index to latLng }
             ), { _, (index, latLng) ->
+
+                val firstPointForAngle = if (latLng == curve.last()) curve[index - 1] else latLng
+                val secondPointForAngle = if (latLng == curve.last()) latLng else curve[index + 1]
+
+                val angle = SphericalUtil.computeHeading(firstPointForAngle, secondPointForAngle).toFloat()
+
                 PlanePosition(
                         location = latLng,
-                        angle = SphericalUtil.computeHeading(
-                                latLng,
-                                curve.getOrElse(index + 1) { curve.last() }
-                        ).toFloat() - 90f
+                        angle = angle - 90f
                 )
             })
 
