@@ -14,7 +14,9 @@ class App : Application(), ViewModelFactoryProvider {
     override lateinit var viewModelFactory: ViewModelFactory
 
     val component: AppComponent by lazy {
-        DaggerAppComponent.create()
+        DaggerAppComponent
+                .factory()
+                .create(this)
     }
 
     override fun onCreate() {

@@ -1,17 +1,20 @@
 package ru.maxbach.aviasales.feature.main
 
 import ru.maxbach.aviasales.base.viewmodel.BaseViewModel
+import ru.maxbach.aviasales.datasource.LastSearch
+import ru.maxbach.aviasales.datasource.LastSearchDataSource
 import ru.maxbach.aviasales.navigation.ScreenResult
 import ru.maxbach.aviasales.network.model.City
 import javax.inject.Inject
 
 class MainScreenViewModel @Inject constructor(
         private val coordinator: MainScreenCoordinator,
-        private val screenResult: ScreenResult<City>
+        private val screenResult: ScreenResult<City>,
+        private val lastSearchDataSource: LastSearchDataSource
 ) : BaseViewModel<MainScreenState>(MainScreenState()) {
 
-    private var cityFromChosen: City? = null
-    private var cityToChosen: City? = null
+    private lateinit var cityFromChosen: City
+    private lateinit var cityToChosen: City
 
     private var cityFromSearchScreenOpened: Boolean? = false
 
@@ -26,6 +29,14 @@ class MainScreenViewModel @Inject constructor(
 
             updateScreenState()
         }
+
+        lastSearchDataSource
+                .getLastSearchValue()
+                .untilDestroy(onSuccess = {
+                    cityFromChosen = it.cityFrom
+                    cityToChosen = it.cityTo
+                    updateScreenState()
+                })
     }
 
     fun onCityFromClicked() {
@@ -39,16 +50,17 @@ class MainScreenViewModel @Inject constructor(
     }
 
     fun onButtonClicked() {
-        //TODO: add handling null cases
-        coordinator.openPlanes(cityFromChosen!!, cityToChosen!!)
+        lastSearchDataSource
+                .writeLastSearchValue(LastSearch(cityFromChosen, cityToChosen))
+                .untilDestroy()
+        coordinator.openPlanes(cityFromChosen, cityToChosen)
     }
 
     private fun updateScreenState() {
         updateState {
             MainScreenState(
-                    cityFrom = cityFromChosen?.fullName,
-                    cityTo = cityToChosen?.fullName,
-                    buttonEnabled = cityFromChosen != null && cityToChosen != null
+                    cityFrom = cityFromChosen.fullName,
+                    cityTo = cityToChosen.fullName
             )
         }
     }

@@ -20,7 +20,7 @@ class NetworkModule {
     //TODO: turn on logging interceptor only in debug mode
     fun providePublicClient(): OkHttpClient = OkHttpClient
             .Builder()
-            .addInterceptor(HttpLoggingInterceptor())
+            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
             .build()
 
     @Singleton

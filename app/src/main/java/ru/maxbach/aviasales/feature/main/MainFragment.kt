@@ -26,7 +26,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             with(viewBinding) {
                 cityFromField.text = newState.cityFrom
                 cityToField.text = newState.cityTo
-                goToPlanesButton.isEnabled = newState.buttonEnabled
             }
         })
     }
