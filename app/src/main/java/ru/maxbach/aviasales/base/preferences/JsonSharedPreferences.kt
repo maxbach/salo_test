@@ -1,4 +1,4 @@
-package ru.maxbach.aviasales.datasource
+package ru.maxbach.aviasales.base.preferences
 
 import android.content.SharedPreferences
 import androidx.core.content.edit

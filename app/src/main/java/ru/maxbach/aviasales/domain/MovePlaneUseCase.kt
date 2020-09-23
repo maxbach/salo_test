@@ -4,28 +4,45 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.SphericalUtil
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import ru.maxbach.aviasales.feature.plane.PlanePosition
+import ru.maxbach.aviasales.feature.map.state.PlanePosition
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MovePlaneUseCase @Inject constructor() {
 
-    operator fun invoke(curve: List<LatLng>): Observable<PlanePosition> = Observable
-            .intervalRange(0, 1001, 0, 1000 / 25, TimeUnit.MILLISECONDS)
-            .subscribeOn(Schedulers.computation())
-            .zipWith(Observable.fromIterable(
-                    curve.mapIndexed { index, latLng -> index to latLng }
-            ), { _, (index, latLng) ->
+    companion object {
+        private const val ONE_FRAME_DELAY = 16L
+    }
 
-                val firstPointForAngle = if (latLng == curve.last()) curve[index - 1] else latLng
-                val secondPointForAngle = if (latLng == curve.last()) latLng else curve[index + 1]
+    operator fun invoke(planePath: List<LatLng>): Observable<PlanePosition> = Observable
+        .fromIterable(planePath.mapToPlanePosition())
+        .zipWith(Observable.interval(ONE_FRAME_DELAY, TimeUnit.MILLISECONDS)) { plane, _ -> plane }
+        .subscribeOn(Schedulers.computation())
 
-                val angle = SphericalUtil.computeHeading(firstPointForAngle, secondPointForAngle).toFloat()
+    private fun List<LatLng>.mapToPlanePosition() = this
+        .mapIndexed { index, latLng ->
+            val planePath = this
 
-                PlanePosition(
-                        location = latLng,
-                        angle = angle - 90f
-                )
-            })
+            val firstPointForAngle = if (latLng == planePath.last()) {
+                planePath[index - 1]
+            } else {
+                latLng
+            }
+
+            val secondPointForAngle = if (latLng == planePath.last()) {
+                latLng
+            } else {
+                planePath[index + 1]
+            }
+
+            val angle = SphericalUtil
+                .computeHeading(firstPointForAngle, secondPointForAngle)
+                .toFloat()
+
+            PlanePosition(
+                location = latLng,
+                angle = angle - 90f
+            )
+        }
 
 }

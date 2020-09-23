@@ -1,4 +1,4 @@
-package ru.maxbach.aviasales.feature.search
+package ru.maxbach.aviasales.feature.search.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter

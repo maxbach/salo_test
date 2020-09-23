@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import ru.maxbach.aviasales.BuildConfig
-import ru.maxbach.aviasales.network.SuggestionsApi
+import ru.maxbach.aviasales.datasource.network.SuggestionsNetworkDataSource
 import javax.inject.Singleton
 
 @Module
@@ -47,6 +47,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideApi(retrofit: Retrofit): SuggestionsApi = retrofit.create(SuggestionsApi::class.java)
+    fun provideApi(retrofit: Retrofit): SuggestionsNetworkDataSource =
+        retrofit.create(SuggestionsNetworkDataSource::class.java)
 
 }

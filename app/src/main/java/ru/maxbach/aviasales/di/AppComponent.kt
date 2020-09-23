@@ -5,7 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import ru.maxbach.aviasales.App
 import ru.maxbach.aviasales.MainActivity
-import ru.maxbach.aviasales.di.memory.PreferencesModule
+import ru.maxbach.aviasales.di.in_memory.PreferencesModule
 import ru.maxbach.aviasales.di.navigation.CiceroneModule
 import ru.maxbach.aviasales.di.navigation.NavigationModule
 import ru.maxbach.aviasales.di.network.NetworkModule

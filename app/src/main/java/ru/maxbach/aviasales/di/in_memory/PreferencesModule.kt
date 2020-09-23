@@ -1,4 +1,4 @@
-package ru.maxbach.aviasales.di.memory
+package ru.maxbach.aviasales.di.in_memory
 
 import android.content.Context
 import android.content.SharedPreferences

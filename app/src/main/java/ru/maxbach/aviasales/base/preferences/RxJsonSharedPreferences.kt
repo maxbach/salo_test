@@ -1,4 +1,4 @@
-package ru.maxbach.aviasales.datasource
+package ru.maxbach.aviasales.base.preferences
 
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single

@@ -1,4 +1,4 @@
-package ru.maxbach.aviasales.feature.plane
+package ru.maxbach.aviasales.feature.map.state
 
 import com.google.android.gms.maps.model.LatLng
 

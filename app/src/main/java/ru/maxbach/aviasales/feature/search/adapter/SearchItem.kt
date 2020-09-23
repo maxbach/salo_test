@@ -1,4 +1,4 @@
-package ru.maxbach.aviasales.feature.search
+package ru.maxbach.aviasales.feature.search.adapter
 
 sealed class SearchItem {
     object SearchHistoryHeader : SearchItem()

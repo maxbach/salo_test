@@ -3,8 +3,8 @@ package ru.maxbach.aviasales.domain
 import io.reactivex.rxjava3.core.Single
 import ru.maxbach.aviasales.data.SearchHistoryRepository
 import ru.maxbach.aviasales.data.SuggestionsRepository
-import ru.maxbach.aviasales.datasource.SearchHistory
-import ru.maxbach.aviasales.feature.search.Suggestions
+import ru.maxbach.aviasales.domain.models.SearchHistory
+import ru.maxbach.aviasales.domain.models.Suggestions
 import javax.inject.Inject
 
 class GetSuggestionsUseCase @Inject constructor(

@@ -1,8 +1,11 @@
-package ru.maxbach.aviasales.datasource
+package ru.maxbach.aviasales.datasource.in_memory
 
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import ru.maxbach.aviasales.network.model.City
+import ru.maxbach.aviasales.base.preferences.RxJsonSharedPreferences
+import ru.maxbach.aviasales.datasource.network.model.City
+import ru.maxbach.aviasales.domain.models.SearchHistory
+import ru.maxbach.aviasales.domain.models.addNewCityAndRemoveRepeats
 import javax.inject.Inject
 
 class SearchHistoryInMemoryDataSource @Inject constructor(

@@ -1,4 +1,4 @@
-package ru.maxbach.aviasales.network.model
+package ru.maxbach.aviasales.datasource.network.model
 
 import com.squareup.moshi.JsonClass
 

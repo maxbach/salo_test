@@ -1,13 +1,13 @@
 package ru.maxbach.aviasales.feature.main
 
 import ru.maxbach.aviasales.base.viewmodel.BaseViewModel
+import ru.maxbach.aviasales.datasource.network.model.City
 import ru.maxbach.aviasales.domain.AddToSearchHistoryNewCityUseCase
 import ru.maxbach.aviasales.domain.GetLastSearchUseCase
 import ru.maxbach.aviasales.domain.RememberLastSearchUseCase
-import ru.maxbach.aviasales.feature.search.RoutePoint
+import ru.maxbach.aviasales.domain.models.RoutePoint
 import ru.maxbach.aviasales.feature.search.SearchResult
 import ru.maxbach.aviasales.navigation.ScreenResult
-import ru.maxbach.aviasales.network.model.City
 import javax.inject.Inject
 
 class MainScreenViewModel @Inject constructor(

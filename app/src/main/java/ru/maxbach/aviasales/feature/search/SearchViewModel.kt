@@ -3,10 +3,10 @@ package ru.maxbach.aviasales.feature.search
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import ru.maxbach.aviasales.base.viewmodel.BaseViewModel
+import ru.maxbach.aviasales.datasource.network.model.City
 import ru.maxbach.aviasales.domain.ConvertSuggestionsToUiItemsUseCase
 import ru.maxbach.aviasales.domain.GetSuggestionsUseCase
 import ru.maxbach.aviasales.navigation.ScreenResult
-import ru.maxbach.aviasales.network.model.City
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

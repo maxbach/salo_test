@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import ru.maxbach.aviasales.R
 import ru.maxbach.aviasales.base.viewmodel.viewModels
 import ru.maxbach.aviasales.databinding.FragmentSearchBinding
+import ru.maxbach.aviasales.feature.search.adapter.SearchAdapter
 import ru.maxbach.aviasales.utils.showSoftInput
 import ru.maxbach.aviasales.utils.viewBinding
 
@@ -29,8 +30,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //TODO: Add error handling
-        viewModel.init(arguments?.getParcelable(NAV_ARGS_KEY)!!)
+        viewModel.init(
+            arguments?.getParcelable(NAV_ARGS_KEY)
+                ?: throw IllegalStateException("Nav args not found. Use create() method to create fragment")
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
