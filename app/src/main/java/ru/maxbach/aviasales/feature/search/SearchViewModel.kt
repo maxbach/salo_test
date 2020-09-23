@@ -3,7 +3,7 @@ package ru.maxbach.aviasales.feature.search
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import ru.maxbach.aviasales.base.viewmodel.BaseViewModel
-import ru.maxbach.aviasales.domain.AddToSearchHistoryNewCityUseCase
+import ru.maxbach.aviasales.domain.ConvertSuggestionsToUiItemsUseCase
 import ru.maxbach.aviasales.domain.GetSuggestionsUseCase
 import ru.maxbach.aviasales.navigation.ScreenResult
 import ru.maxbach.aviasales.network.model.City
@@ -11,34 +11,27 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
-        private val coordinator: SearchCoordinator,
-        private val getSuggestionsUseCase: GetSuggestionsUseCase,
-        private val screenResult: ScreenResult<City>,
-        private val addToSearchHistoryNewCityUseCase: AddToSearchHistoryNewCityUseCase
+    private val coordinator: SearchCoordinator,
+    private val getSuggestionsUseCase: GetSuggestionsUseCase,
+    private val screenResult: ScreenResult<SearchResult>,
+    private val convertSuggestionsToUiItemsUseCase: ConvertSuggestionsToUiItemsUseCase
 ) : BaseViewModel<SearchScreenState>(SearchScreenState()) {
 
     private val cityInputSubject = BehaviorSubject.createDefault("")
 
-    private var cachedCities: List<City> = emptyList()
+    private lateinit var cities: List<City>
+    private lateinit var navArgs: SearchScreenNavArgs
 
     init {
-        //TODO: move logic to use case
-        cityInputSubject
-                .debounce(500, TimeUnit.MILLISECONDS)
-                .distinctUntilChanged()
-                .switchMapSingle { newInput ->
-                    getSuggestionsUseCase.invoke(newInput).map { suggestions -> newInput to suggestions }
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .untilDestroy(onNext = { (newInput, newSuggestions) ->
-                    cachedCities = newSuggestions
+        observeCityInput()
+    }
 
-                    val viewItems = listOfNotNull(
-                            SearchItem.SearchHistoryHeader.takeIf { newInput.isBlank() && newSuggestions.isNotEmpty() }
-                    ) + newSuggestions.map { SearchItem.SuggestionItem(it.id, it.name) }
+    fun init(navArgs: SearchScreenNavArgs) {
+        this.navArgs = navArgs
 
-                    updateState { SearchScreenState(viewItems) }
-                })
+        updateState { currentState ->
+            currentState.copy(inputHintId = navArgs.routePoint.inputHintId)
+        }
     }
 
     fun onCityNewInput(newText: CharSequence?) {
@@ -46,20 +39,29 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onCityClicked(cityId: Long) {
-        //TODO: write correct exception
-        val chosenCity = cachedCities.find { it.id == cityId }!!
+        val chosenCity = cities.find { it.id == cityId }
+            ?: throw IllegalStateException("There is no such city in cached")
 
-        //TODO: maybe it will not works
-        addToSearchHistoryNewCityUseCase
-                .invoke(chosenCity)
-                .untilDestroy()
-
-        screenResult.onNext(chosenCity)
+        screenResult.onNext(SearchResult(chosenCity, navArgs.routePoint))
         coordinator.close()
     }
 
     fun closeScreen() {
         coordinator.close()
+    }
+
+    private fun observeCityInput() {
+        cityInputSubject
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .switchMapSingle(getSuggestionsUseCase::invoke)
+            .observeOn(AndroidSchedulers.mainThread())
+            .untilDestroy(onNext = { newSuggestions ->
+                cities = newSuggestions.cities
+
+                val viewItems = convertSuggestionsToUiItemsUseCase.invoke(newSuggestions)
+                updateState { currentState -> currentState.copy(suggestions = viewItems) }
+            })
     }
 
 }

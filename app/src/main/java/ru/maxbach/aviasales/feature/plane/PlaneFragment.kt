@@ -14,6 +14,7 @@ import ru.maxbach.aviasales.base.viewmodel.viewModels
 import ru.maxbach.aviasales.network.model.City
 import ru.maxbach.aviasales.utils.toBitmap
 
+//TODO: rename to map
 class PlaneFragment : SupportMapFragment() {
 
     companion object {
@@ -22,8 +23,8 @@ class PlaneFragment : SupportMapFragment() {
 
         fun create(cityFrom: City, cityTo: City): PlaneFragment = PlaneFragment().apply {
             arguments = bundleOf(
-                    CITY_FROM_KEY to cityFrom,
-                    CITY_TO_KEY to cityTo
+                CITY_FROM_KEY to cityFrom,
+                CITY_TO_KEY to cityTo
             )
         }
     }
@@ -34,8 +35,8 @@ class PlaneFragment : SupportMapFragment() {
         super.onCreate(savedInstanceState)
 
         viewModel.init(
-                arguments?.getParcelable(CITY_FROM_KEY)!!,
-                arguments?.getParcelable(CITY_TO_KEY)!!
+            arguments?.getParcelable(CITY_FROM_KEY)!!,
+            arguments?.getParcelable(CITY_TO_KEY)!!
         )
     }
 
@@ -53,31 +54,31 @@ class PlaneFragment : SupportMapFragment() {
                     }
                 } else {
                     it.addMarker(MarkerOptions()
-                            .position(state.cityFrom.location)
-                            .icon(createCityMarker(state.cityFrom.shortName))
-                            .alpha(0.7f)
-                            .anchor(0.5f, 0.5f)
+                        .position(state.cityFrom.location)
+                        .icon(createCityMarker(state.cityFrom.shortName))
+                        .alpha(0.7f)
+                        .anchor(0.5f, 0.5f)
                     )
                     it.addMarker(MarkerOptions()
-                            .position(state.cityTo.location)
-                            .icon(createCityMarker(state.cityTo.shortName))
-                            .alpha(0.8f)
-                            .anchor(0.5f, 0.5f)
+                        .position(state.cityTo.location)
+                        .icon(createCityMarker(state.cityTo.shortName))
+                        .alpha(0.8f)
+                        .anchor(0.5f, 0.5f)
                     )
 
                     it.moveCamera(
-                            CameraUpdateFactory.newLatLngBounds(
-                                    LatLngBounds.builder()
-                                            .include(state.cityFrom.location)
-                                            .include(state.cityTo.location)
-                                            .build(),
-                                    20
-                            )
+                        CameraUpdateFactory.newLatLngBounds(
+                            LatLngBounds.builder()
+                                .include(state.cityFrom.location)
+                                .include(state.cityTo.location)
+                                .build(),
+                            20
+                        )
                     )
 
                     it.addPolyline(PolylineOptions()
-                            .add(*state.pointsOfCurve.toTypedArray())
-                            .pattern(listOf(Dash(10f), Gap(20f)))
+                        .add(*state.pointsOfCurve.toTypedArray())
+                        .pattern(listOf(Dash(10f), Gap(20f)))
                     )
 
                     it.uiSettings.isMapToolbarEnabled = false
@@ -86,10 +87,10 @@ class PlaneFragment : SupportMapFragment() {
                     it.setMaxZoomPreference(9f)
 
                     planeMarker = it.addMarker(MarkerOptions()
-                            .position(state.plane.location)
-                            .rotation(state.plane.angle)
-                            .anchor(0.5f, 0.5f)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_plane))
+                        .position(state.plane.location)
+                        .rotation(state.plane.angle)
+                        .anchor(0.5f, 0.5f)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_plane))
                     )
                 }
 

@@ -7,10 +7,11 @@ import kotlinx.android.parcel.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-//TODO: remove extra fields
 data class City(
-        val id: Long,
-        @Json(name = "fullname") val fullName: String,
-        val location: Location,
-        @Json(name = "city") val name: String
+    val id: Long,
+    @Json(name = "fullname")
+    val fullName: String,
+    val location: Location,
+    @Json(name = "city")
+    val name: String
 ) : Parcelable

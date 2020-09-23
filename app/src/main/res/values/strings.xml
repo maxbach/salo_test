@@ -3,5 +3,7 @@
 
     <string name="global_input_from_hint">Откуда летим</string>
     <string name="global_input_to_hint">Куда летим</string>
+
     <string name="main_button_title">Поiхали</string>
+    <string name="search_input_hint_default">Введите город</string>
 </resources>

@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.core.Single
 import ru.maxbach.aviasales.network.model.City
 import javax.inject.Inject
 
-class SearchHistoryDataSource @Inject constructor(
+class SearchHistoryInMemoryDataSource @Inject constructor(
     private val rxJsonSharedPreferences: RxJsonSharedPreferences
 ) {
 

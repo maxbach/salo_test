@@ -1,5 +1,7 @@
 package ru.maxbach.aviasales.feature.main
 
+import ru.maxbach.aviasales.feature.search.RoutePoint
+import ru.maxbach.aviasales.feature.search.SearchScreenNavArgs
 import ru.maxbach.aviasales.navigation.Screens
 import ru.maxbach.aviasales.network.model.City
 import ru.terrakok.cicerone.Router
@@ -9,8 +11,8 @@ class MainScreenCoordinator @Inject constructor(
         private val router: Router
 ) {
 
-    fun openSearch() {
-        router.navigateTo(Screens.Search())
+    fun openSearch(routePoint: RoutePoint) {
+        router.navigateTo(Screens.Search(SearchScreenNavArgs(routePoint)))
     }
 
     fun openPlanes(cityFrom: City, cityTo: City) {

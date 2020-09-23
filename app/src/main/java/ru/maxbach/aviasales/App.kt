@@ -23,8 +23,10 @@ class App : Application(), ViewModelFactoryProvider {
         super.onCreate()
 
         component.inject(this)
-        //TODO: add only on debug
-        Timber.plant(Timber.DebugTree())
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
 }

@@ -6,7 +6,7 @@ import ru.maxbach.aviasales.network.model.City
 import ru.maxbach.aviasales.network.model.Location
 import javax.inject.Inject
 
-class LastSearchDataSource @Inject constructor(
+class LastSearchInMemoryDataSource @Inject constructor(
     private val rxJsonSharedPreferences: RxJsonSharedPreferences
 ) {
 
@@ -36,7 +36,7 @@ class LastSearchDataSource @Inject constructor(
             defaultLastSearch
         )
 
-    fun writeLastSearchValue(lastSearch: LastSearch): Completable = rxJsonSharedPreferences
+    fun writeLastSearch(lastSearch: LastSearch): Completable = rxJsonSharedPreferences
         .writeJsonObject(
             LAST_SEARCH_KEY,
             LastSearch::class.java,

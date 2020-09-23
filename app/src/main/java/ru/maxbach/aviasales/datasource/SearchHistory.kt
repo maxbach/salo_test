@@ -2,6 +2,7 @@ package ru.maxbach.aviasales.datasource
 
 import com.squareup.moshi.JsonClass
 import ru.maxbach.aviasales.network.model.City
+import ru.maxbach.aviasales.utils.addToBegin
 
 @JsonClass(generateAdapter = true)
 data class SearchHistory(
@@ -9,5 +10,5 @@ data class SearchHistory(
 )
 
 fun SearchHistory.addNewCityAndRemoveRepeats(newCity: City) = SearchHistory(
-    citiesList = listOf(newCity) + (this.citiesList - newCity)
+    citiesList = (this.citiesList - newCity).addToBegin(newCity)
 )

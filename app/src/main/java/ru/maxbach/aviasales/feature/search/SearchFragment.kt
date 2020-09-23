@@ -2,6 +2,7 @@ package ru.maxbach.aviasales.feature.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import ru.maxbach.aviasales.R
@@ -12,10 +13,25 @@ import ru.maxbach.aviasales.utils.viewBinding
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
+    companion object {
+        private const val NAV_ARGS_KEY = "nav_args"
+
+        fun create(navArgs: SearchScreenNavArgs) = SearchFragment().apply {
+            arguments = bundleOf(NAV_ARGS_KEY to navArgs)
+        }
+    }
+
     private val binding by viewBinding(FragmentSearchBinding::bind)
     private val viewModel by viewModels<SearchViewModel>()
 
     private val adapter = SearchAdapter { viewModel.onCityClicked(it) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //TODO: Add error handling
+        viewModel.init(arguments?.getParcelable(NAV_ARGS_KEY)!!)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,6 +40,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         viewModel.state.observe(viewLifecycleOwner, { state ->
             adapter.items = state.suggestions
+            binding.cityInput.hint = getString(state.inputHintId)
         })
     }
 

@@ -3,12 +3,12 @@ package ru.maxbach.aviasales.data
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import ru.maxbach.aviasales.datasource.SearchHistory
-import ru.maxbach.aviasales.datasource.SearchHistoryDataSource
+import ru.maxbach.aviasales.datasource.SearchHistoryInMemoryDataSource
 import ru.maxbach.aviasales.network.model.City
 import javax.inject.Inject
 
 class SearchHistoryRepository @Inject constructor(
-        private val dataSource: SearchHistoryDataSource
+    private val dataSource: SearchHistoryInMemoryDataSource
 ) {
 
     fun getSearchHistory(): Single<SearchHistory> = dataSource

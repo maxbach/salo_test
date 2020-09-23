@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import ru.maxbach.aviasales.BuildConfig
 import ru.maxbach.aviasales.network.SuggestionsApi
 import javax.inject.Singleton
 
@@ -17,26 +18,31 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    //TODO: turn on logging interceptor only in debug mode
     fun providePublicClient(): OkHttpClient = OkHttpClient
-            .Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
-            .build()
+        .Builder()
+        .apply {
+            if (BuildConfig.DEBUG) {
+                addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
+            }
+        }
+        .build()
 
     @Singleton
     @Provides
-    fun provideMoshi() = Moshi
-            .Builder()
-            .build()
+    fun provideMoshi(): Moshi = Moshi
+        .Builder()
+        .build()
 
     @Singleton
     @Provides
     fun provideRetrofitFactory(client: OkHttpClient, moshi: Moshi): Retrofit = Retrofit.Builder()
-            .baseUrl("https://yasen.hotellook.com")
-            .client(client)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.createWithScheduler(Schedulers.io()))
-            .build()
+        .baseUrl("https://yasen.hotellook.com")
+        .client(client)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .addCallAdapterFactory(RxJava3CallAdapterFactory.createWithScheduler(Schedulers.io()))
+        .build()
 
 
     @Singleton
