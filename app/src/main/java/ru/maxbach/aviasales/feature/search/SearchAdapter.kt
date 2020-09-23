@@ -7,10 +7,8 @@ import ru.maxbach.aviasales.databinding.ItemSearchHistoryHeaderBinding
 import ru.maxbach.aviasales.databinding.ItemSuggestionBinding
 
 class SearchAdapter(
-        private val onCityClicked: (Long) -> Unit
-) : AsyncListDifferDelegationAdapter<SearchItem>(
-        itemCallback
-) {
+    private val onCityClicked: (Long) -> Unit
+) : AsyncListDifferDelegationAdapter<SearchItem>(itemCallback) {
 
     init {
         delegatesManager.addDelegate(getCityItemDelegate())
@@ -20,11 +18,14 @@ class SearchAdapter(
     companion object {
         private val itemCallback = object : DiffUtil.ItemCallback<SearchItem>() {
             override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean =
-                    oldItem is SearchItem.SuggestionItem
-                            && newItem is SearchItem.SuggestionItem
-                            && oldItem.id == newItem.id
+                oldItem is SearchItem.SuggestionItem
+                    && newItem is SearchItem.SuggestionItem
+                    && oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean = oldItem == newItem
+            override fun areContentsTheSame(
+                oldItem: SearchItem,
+                newItem: SearchItem
+            ): Boolean = oldItem == newItem
         }
     }
 

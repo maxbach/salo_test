@@ -21,6 +21,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
+        coreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -76,5 +78,7 @@ dependencies {
     val adapterDelegateVersion = "4.3.0"
     implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$adapterDelegateVersion")
     implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegateVersion")
+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.10")
 
 }

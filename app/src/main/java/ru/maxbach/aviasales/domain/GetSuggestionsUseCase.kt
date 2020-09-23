@@ -3,6 +3,7 @@ package ru.maxbach.aviasales.domain
 import io.reactivex.rxjava3.core.Single
 import ru.maxbach.aviasales.data.SearchHistoryRepository
 import ru.maxbach.aviasales.data.SuggestionsRepository
+import ru.maxbach.aviasales.datasource.SearchHistory
 import ru.maxbach.aviasales.network.model.City
 import javax.inject.Inject
 
@@ -16,6 +17,7 @@ class GetSuggestionsUseCase @Inject constructor(
         suggestionsRepository.getSuggestions(input, "ru")
     } else {
         searchHistoryRepository.getSearchHistory()
+            .map(SearchHistory::citiesList)
     }
 
 }

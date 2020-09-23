@@ -1,5 +1,6 @@
 package ru.maxbach.aviasales.feature.plane
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,18 +8,11 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.Dash
-import com.google.android.gms.maps.model.Gap
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import ru.maxbach.aviasales.R
+import ru.maxbach.aviasales.base.viewmodel.viewModels
 import ru.maxbach.aviasales.network.model.City
 import ru.maxbach.aviasales.utils.toBitmap
-import ru.maxbach.aviasales.utils.viewModels
 
 class PlaneFragment : SupportMapFragment() {
 
@@ -104,11 +98,12 @@ class PlaneFragment : SupportMapFragment() {
         })
     }
 
+    @SuppressLint("InflateParams")
     private fun createCityMarker(cityShortName: String): BitmapDescriptor = (LayoutInflater
-            .from(requireContext())
-            .inflate(R.layout.map_city_marker, null) as TextView)
-            .apply { text = cityShortName }
-            .toBitmap()
-            .let(BitmapDescriptorFactory::fromBitmap)
+        .from(requireContext())
+        .inflate(R.layout.map_city_marker, null) as TextView)
+        .apply { text = cityShortName }
+        .toBitmap()
+        .let(BitmapDescriptorFactory::fromBitmap)
 
 }

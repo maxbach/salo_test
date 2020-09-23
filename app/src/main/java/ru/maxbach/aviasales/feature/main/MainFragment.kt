@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import ru.maxbach.aviasales.R
+import ru.maxbach.aviasales.base.viewmodel.viewModels
 import ru.maxbach.aviasales.databinding.FragmentMainBinding
 import ru.maxbach.aviasales.utils.viewBinding
-import ru.maxbach.aviasales.utils.viewModels
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 

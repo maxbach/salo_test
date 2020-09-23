@@ -8,17 +8,20 @@ import ru.maxbach.aviasales.network.model.City
 import javax.inject.Inject
 
 class MainScreenViewModel @Inject constructor(
-        private val coordinator: MainScreenCoordinator,
-        private val screenResult: ScreenResult<City>,
-        private val lastSearchDataSource: LastSearchDataSource
+    private val coordinator: MainScreenCoordinator,
+    //TODO: create repo and use case
+    private val lastSearchDataSource: LastSearchDataSource,
+    screenResult: ScreenResult<City>
 ) : BaseViewModel<MainScreenState>(MainScreenState()) {
 
     private lateinit var cityFromChosen: City
     private lateinit var cityToChosen: City
 
+    // TODO: move to screen args and screen result
     private var cityFromSearchScreenOpened: Boolean? = false
 
     init {
+        //TODO: move to methods
         screenResult.observe {
             if (cityFromSearchScreenOpened == true) {
                 cityFromChosen = it
@@ -31,12 +34,12 @@ class MainScreenViewModel @Inject constructor(
         }
 
         lastSearchDataSource
-                .getLastSearchValue()
-                .untilDestroy(onSuccess = {
-                    cityFromChosen = it.cityFrom
-                    cityToChosen = it.cityTo
-                    updateScreenState()
-                })
+            .getLastSearchValue()
+            .untilDestroy(onSuccess = {
+                cityFromChosen = it.cityFrom
+                cityToChosen = it.cityTo
+                updateScreenState()
+            })
     }
 
     fun onCityFromClicked() {
@@ -51,16 +54,16 @@ class MainScreenViewModel @Inject constructor(
 
     fun onButtonClicked() {
         lastSearchDataSource
-                .writeLastSearchValue(LastSearch(cityFromChosen, cityToChosen))
-                .untilDestroy()
+            .writeLastSearchValue(LastSearch(cityFromChosen, cityToChosen))
+            .untilDestroy()
         coordinator.openPlanes(cityFromChosen, cityToChosen)
     }
 
     private fun updateScreenState() {
         updateState {
             MainScreenState(
-                    cityFrom = cityFromChosen.fullName,
-                    cityTo = cityToChosen.fullName
+                cityFrom = cityFromChosen.fullName,
+                cityTo = cityToChosen.fullName
             )
         }
     }

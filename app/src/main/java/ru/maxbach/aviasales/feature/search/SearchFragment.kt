@@ -5,10 +5,10 @@ import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import ru.maxbach.aviasales.R
+import ru.maxbach.aviasales.base.viewmodel.viewModels
 import ru.maxbach.aviasales.databinding.FragmentSearchBinding
 import ru.maxbach.aviasales.utils.showSoftInput
 import ru.maxbach.aviasales.utils.viewBinding
-import ru.maxbach.aviasales.utils.viewModels
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
 

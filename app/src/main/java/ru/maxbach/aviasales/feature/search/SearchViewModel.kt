@@ -22,7 +22,7 @@ class SearchViewModel @Inject constructor(
     private var cachedCities: List<City> = emptyList()
 
     init {
-        //TODO: make it clever
+        //TODO: move logic to use case
         cityInputSubject
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
