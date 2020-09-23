@@ -7,8 +7,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import ru.maxbach.aviasales.base.viewmodel.viewModels
-import ru.maxbach.aviasales.feature.map.state.MapScreenState
-import ru.maxbach.aviasales.feature.map.utils.*
+import ru.maxbach.aviasales.feature.map.state.MapScreenMainState
+import ru.maxbach.aviasales.feature.map.utils.addCityMarker
+import ru.maxbach.aviasales.feature.map.utils.addPlaneMarker
+import ru.maxbach.aviasales.feature.map.utils.drawPlanePath
+import ru.maxbach.aviasales.feature.map.utils.focusMapOnRoute
+import ru.maxbach.aviasales.feature.map.utils.movePlane
+import ru.maxbach.aviasales.feature.map.utils.setup
 
 class MapFragment : SupportMapFragment() {
 
@@ -37,28 +42,32 @@ class MapFragment : SupportMapFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe(viewLifecycleOwner, { state ->
-            getMapAsync { googleMap ->
-                val currentPlaneMarker = planeMarker
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            getMapAsync { it.setupFirst(state) }
+        }
 
-                if (currentPlaneMarker != null) {
-                    currentPlaneMarker.movePlane(state.plane)
-                } else {
-                    googleMap.setupFirst(state)
+        viewModel.planePath.observe(viewLifecycleOwner) { planePath ->
+            getMapAsync {
+                it.drawPlanePath(requireContext(), planePath)
+            }
+        }
+
+        getMapAsync { googleMap ->
+            viewModel.planePosition.observe(viewLifecycleOwner) { planePosition ->
+                planeMarker?.movePlane(planePosition) ?: run {
+                    planeMarker = googleMap.addPlaneMarker(planePosition)
                 }
             }
-        })
+        }
     }
 
-    private fun GoogleMap.setupFirst(state: MapScreenState) {
+    private fun GoogleMap.setupFirst(mainState: MapScreenMainState) {
         setup()
 
-        addCityMarker(requireContext(), state.cityFrom)
-        addCityMarker(requireContext(), state.cityTo)
-        planeMarker = addPlaneMarker(state.plane)
+        addCityMarker(requireContext(), mainState.cityFrom)
+        addCityMarker(requireContext(), mainState.cityTo)
 
-        focusMapOnRoute(state.cityFrom.location, state.cityTo.location)
-        drawPlanePath(state.planePath)
+        focusMapOnRoute(mainState.cityFrom.location, mainState.cityTo.location)
     }
 
 }
