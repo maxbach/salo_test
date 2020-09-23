@@ -4,18 +4,23 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.SphericalUtil
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import ru.maxbach.aviasales.data.BezierCurveRepository
 import ru.maxbach.aviasales.feature.map.state.PlanePosition
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class MovePlaneUseCase @Inject constructor() {
+class MovePlaneUseCase @Inject constructor(
+    private val bezierCurveRepository: BezierCurveRepository
+) {
 
     companion object {
         private const val ONE_FRAME_DELAY = 16L
     }
 
-    operator fun invoke(planePath: List<LatLng>): Observable<PlanePosition> = Observable
-        .fromIterable(planePath.mapToPlanePosition())
+    operator fun invoke(from: LatLng, to: LatLng): Observable<PlanePosition> = bezierCurveRepository
+        .get(from, to)
+        .map { it.mapToPlanePosition() }
+        .flatMapObservable { Observable.fromIterable(it) }
         .zipWith(Observable.interval(ONE_FRAME_DELAY, TimeUnit.MILLISECONDS)) { plane, _ -> plane }
         .subscribeOn(Schedulers.computation())
 
