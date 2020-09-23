@@ -14,11 +14,11 @@ object Screens {
     }
 
     class Search(private val navArgs: SearchScreenNavArgs) : SupportAppScreen() {
-        override fun getFragment() = SearchFragment.create(navArgs)
+        override fun getFragment() = SearchFragment(navArgs)
     }
 
     class Map(private val navArgs: MapNavArgs) : SupportAppScreen() {
-        override fun getFragment() = MapFragment.create(navArgs)
+        override fun getFragment() = MapFragment(navArgs)
     }
 
 }

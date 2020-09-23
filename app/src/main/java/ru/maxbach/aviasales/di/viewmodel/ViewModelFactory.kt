@@ -1,17 +1,19 @@
 package ru.maxbach.aviasales.di.viewmodel
 
+import android.os.Bundle
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.savedstate.SavedStateRegistryOwner
 
-import javax.inject.Inject
-import javax.inject.Provider
-
-class ViewModelFactory @Inject constructor(
-        private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
-) : ViewModelProvider.Factory {
+class ViewModelFactory(
+    private val viewModelMap: MutableMap<Class<out ViewModel>, ViewModelAssistedFactory<out ViewModel>>,
+    owner: SavedStateRegistryOwner,
+    arguments: Bundle
+) : AbstractSavedStateViewModelFactory(owner, arguments) {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = creators[modelClass]?.get() as? T
-            ?: throw IllegalArgumentException("Unknown model class $modelClass")
-
+    override fun <T : ViewModel?> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T {
+        return viewModelMap[modelClass]?.create(handle) as? T ?: throw IllegalStateException("Unknown ViewModel class")
+    }
 }

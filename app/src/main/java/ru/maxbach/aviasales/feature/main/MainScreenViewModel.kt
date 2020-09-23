@@ -1,23 +1,30 @@
 package ru.maxbach.aviasales.feature.main
 
+import androidx.lifecycle.SavedStateHandle
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
+import ru.maxbach.aviasales.base.fragment.EmptyState
 import ru.maxbach.aviasales.base.viewmodel.BaseViewModel
 import ru.maxbach.aviasales.datasource.network.model.City
+import ru.maxbach.aviasales.di.viewmodel.ViewModelAssistedFactory
 import ru.maxbach.aviasales.domain.AddToSearchHistoryNewCityUseCase
 import ru.maxbach.aviasales.domain.GetLastSearchUseCase
 import ru.maxbach.aviasales.domain.RememberLastSearchUseCase
 import ru.maxbach.aviasales.domain.models.RoutePoint
 import ru.maxbach.aviasales.feature.search.SearchResult
 import ru.maxbach.aviasales.navigation.ScreenResult
-import javax.inject.Inject
 
-class MainScreenViewModel @Inject constructor(
+class MainScreenViewModel @AssistedInject constructor(
     private val coordinator: MainScreenCoordinator,
     private val getLastSearchUseCase: GetLastSearchUseCase,
     private val rememberLastSearchUseCase: RememberLastSearchUseCase,
     private val addToSearchHistoryNewCityUseCase: AddToSearchHistoryNewCityUseCase,
-    private val screenResult: ScreenResult<SearchResult>
-) : BaseViewModel<MainScreenState>(MainScreenState()) {
+    private val screenResult: ScreenResult<SearchResult>,
+    @Assisted handle: SavedStateHandle
+) : BaseViewModel<MainScreenState, EmptyState>(MainScreenState(), handle) {
 
+
+    // TODO: try to move it from here
     private lateinit var cityFromChosen: City
     private lateinit var cityToChosen: City
 
@@ -81,5 +88,8 @@ class MainScreenViewModel @Inject constructor(
         rememberLastSearchUseCase(cityFromChosen, cityToChosen)
             .untilDestroy()
     }
+
+    @AssistedInject.Factory
+    interface Factory : ViewModelAssistedFactory<MainScreenViewModel>
 
 }

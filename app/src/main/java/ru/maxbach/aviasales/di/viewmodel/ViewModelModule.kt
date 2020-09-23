@@ -1,6 +1,7 @@
 package ru.maxbach.aviasales.di.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -8,22 +9,26 @@ import ru.maxbach.aviasales.feature.main.MainScreenViewModel
 import ru.maxbach.aviasales.feature.map.MapScreenViewModel
 import ru.maxbach.aviasales.feature.search.SearchViewModel
 
-@Module
+@Module(includes = [ViewModelAssistedFactoriesModule::class])
 interface ViewModelModule {
 
     @Binds
     @IntoMap
     @ViewModelKey(MainScreenViewModel::class)
-    fun bindMainScreenViewModel(mainScreenViewModel: MainScreenViewModel): ViewModel
+    fun bindMainScreenViewModel(viewModel: MainScreenViewModel.Factory): ViewModelAssistedFactory<out ViewModel>
 
     @Binds
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
-    fun bindSearchViewModel(searchViewModel: SearchViewModel): ViewModel
+    fun bindSearchViewModel(viewModel: SearchViewModel.Factory): ViewModelAssistedFactory<out ViewModel>
 
     @Binds
     @IntoMap
     @ViewModelKey(MapScreenViewModel::class)
-    fun bindPlaneViewModel(mapScreenViewModel: MapScreenViewModel): ViewModel
+    fun bindMapScreenViewModel(viewModel: MapScreenViewModel.Factory): ViewModelAssistedFactory<out ViewModel>
 
 }
+
+@AssistedModule
+@Module(includes = [AssistedInject_ViewModelAssistedFactoriesModule::class])
+abstract class ViewModelAssistedFactoriesModule

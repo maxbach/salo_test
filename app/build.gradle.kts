@@ -48,6 +48,10 @@ dependencies {
     implementation("com.google.dagger:dagger:$daggerVersion")
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
+    val daggerAssistedVersion = "0.6.0"
+    compileOnly("com.squareup.inject:assisted-inject-annotations-dagger2:$daggerAssistedVersion")
+    kapt("com.squareup.inject:assisted-inject-processor-dagger2:$daggerAssistedVersion")
+
     implementation("ru.terrakok.cicerone:cicerone:5.1.1")
 
     implementation("io.reactivex.rxjava3:rxjava:3.0.6")
@@ -62,9 +66,9 @@ dependencies {
     implementation("com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
 
-    val lifecycle_version = "2.2.0"
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
+    val lifecycleVersion = "2.2.0"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion")
 
     implementation("com.google.android.material:material:1.2.1")
 

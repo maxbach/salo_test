@@ -1,22 +1,22 @@
 package ru.maxbach.aviasales
 
 import android.app.Application
+import androidx.lifecycle.ViewModel
 import ru.maxbach.aviasales.di.AppComponent
 import ru.maxbach.aviasales.di.DaggerAppComponent
-import ru.maxbach.aviasales.di.viewmodel.ViewModelFactory
-import ru.maxbach.aviasales.di.viewmodel.ViewModelFactoryProvider
+import ru.maxbach.aviasales.di.viewmodel.ViewModelAssistedFactory
 import timber.log.Timber
 import javax.inject.Inject
 
-class App : Application(), ViewModelFactoryProvider {
+class App : Application() {
 
     @Inject
-    override lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelMap: MutableMap<Class<out ViewModel>, ViewModelAssistedFactory<out ViewModel>>
 
     val component: AppComponent by lazy {
         DaggerAppComponent
-                .factory()
-                .create(this)
+            .factory()
+            .create(this)
     }
 
     override fun onCreate() {
