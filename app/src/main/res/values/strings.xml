@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Salo Test by maxbach</string>
+    <string name="app_name">Aviasalo</string>
+
+    <string name="global_input_from_hint">Откуда летим</string>
+    <string name="global_input_to_hint">Куда летим</string>
+    <string name="main_button_title">Поiхали</string>
 </resources>
