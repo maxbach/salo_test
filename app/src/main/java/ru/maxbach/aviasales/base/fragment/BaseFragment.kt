@@ -19,6 +19,7 @@ open class BaseFragment<NavArgs : Parcelable, VM : BaseViewModel<*, NavArgs>>(
         const val NAV_ARGS_KEY = "nav_args"
     }
 
+    // TODO: move to fragment factory
     fun putNavArgs(navArgs: NavArgs = EmptyState as NavArgs) {
         arguments = bundleOf(NAV_ARGS_KEY to navArgs)
     }

@@ -6,6 +6,8 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.maxbach.aviasales.di.math.DotsInCurveCount
 import javax.inject.Inject
+import kotlin.math.cos
+import kotlin.math.sin
 
 class BezierCurveCalculationDataSource @Inject constructor(
     @DotsInCurveCount private val dotsCount: Int
@@ -19,11 +21,9 @@ class BezierCurveCalculationDataSource @Inject constructor(
         val startPoint = from.toPoint()
         val endPoint = to.toPoint()
 
-        val (control2, control3, control4) = calculateControlPoints(startPoint, endPoint)
-
         return calculatePoints(
             dotsCount,
-            ControlPoints(startPoint, control2, control3, control4, endPoint)
+            calculateControlPoints(startPoint, endPoint)
         )
     }
 
@@ -38,22 +38,31 @@ class BezierCurveCalculationDataSource @Inject constructor(
         .map { it.toLatLng() }
 
 
-    //TODO: change square to more pretty figure
-    private fun calculateControlPoints(start: Point, end: Point): Triple<Point, Point, Point> {
-        val control2 = Point(
-            (start.x + end.x) / 2,
-            (start.y + end.y) / 2
-        )
-        val control1 = Point(
-            control2.x - start.y + control2.y,
-            control2.y + start.x - control2.x
-        )
-        val control3 = Point(
-            control2.x - end.y + control2.y,
-            control2.y + end.x - control2.x
+    // rhombus. first diagonal size is distance between start and end. second diagonal size is 3/4 of first diagonal
+    private fun calculateControlPoints(start: Point, end: Point): ControlPoints {
+        val middle = pointBetween(start, end, 0.5)
+
+        val control1 = pointBetween(start, middle, 0.25).rotateAround(
+            middle,
+            Math.PI / 2
         )
 
-        return Triple(control1, control2, control3)
+        val control3 = pointBetween(end, middle, 0.25).rotateAround(
+            middle,
+            Math.PI / 2
+        )
+
+        return ControlPoints(start, control1, control3, end)
     }
+
+    private fun Point.rotateAround(center: Point, radians: Double) = Point(
+        center.x + (this.x - center.x) * cos(radians) - (this.y - center.y) * sin(radians),
+        center.y + (this.x - center.x) * sin(radians) + (this.y - center.y) * cos(radians)
+    )
+
+    private fun pointBetween(p1: Point, p2: Point, t: Double): Point = Point(
+        p1.x * (1 - t) + p2.x * t,
+        p1.y * (1 - t) + p2.y * t
+    )
 
 }

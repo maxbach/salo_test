@@ -4,14 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.Dot
-import com.google.android.gms.maps.model.Gap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import ru.maxbach.aviasales.R
 import ru.maxbach.aviasales.feature.map.state.CityMapMarker
 import ru.maxbach.aviasales.feature.map.state.PlanePosition
@@ -24,7 +17,7 @@ fun GoogleMap.addCityMarker(context: Context, cityMapMarker: CityMapMarker) {
         MarkerOptions()
             .position(cityMapMarker.location)
             .icon(context.createCityMarker(cityMapMarker.shortName))
-            .alpha(0.7f)
+            .alpha(0.9f)
             .anchor(0.5f, 0.5f)
     )
 }
