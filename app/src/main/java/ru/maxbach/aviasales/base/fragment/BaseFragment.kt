@@ -12,15 +12,14 @@ import ru.maxbach.aviasales.di.viewmodel.ViewModelFactory
 
 @Suppress("UNCHECKED_CAST")
 open class BaseFragment<NavArgs : Parcelable, VM : BaseViewModel<*, NavArgs>>(
-    @LayoutRes layoutId: Int,
-    navArgs: NavArgs = EmptyState as? NavArgs ?: throw IllegalStateException("Nav args not specified.")
+    @LayoutRes layoutId: Int
 ) : Fragment(layoutId) {
 
     companion object {
         const val NAV_ARGS_KEY = "nav_args"
     }
 
-    init {
+    fun putNavArgs(navArgs: NavArgs = EmptyState as NavArgs) {
         arguments = bundleOf(NAV_ARGS_KEY to navArgs)
     }
 

@@ -18,8 +18,8 @@ class SearchViewModel @AssistedInject constructor(
     private val getSuggestionsUseCase: GetSuggestionsUseCase,
     private val screenResult: ScreenResult<SearchResult>,
     private val convertSuggestionsToUiItemsUseCase: ConvertSuggestionsToUiItemsUseCase,
-    @Assisted handle: SavedStateHandle
-) : BaseViewModel<SearchScreenState, SearchScreenNavArgs>(SearchScreenState(), handle) {
+    @Assisted arg0: SavedStateHandle
+) : BaseViewModel<SearchScreenState, SearchScreenNavArgs>(SearchScreenState(), arg0) {
 
     private val cityInputSubject = BehaviorSubject.createDefault("")
 

@@ -19,8 +19,8 @@ import ru.maxbach.aviasales.utils.toImmutable
 class MapScreenViewModel @AssistedInject constructor(
     private val getPointsOfCurveUseCase: GetBezierCurveUseCase,
     private val movePlaneUseCase: MovePlaneUseCase,
-    @Assisted handle: SavedStateHandle
-) : BaseViewModel<MapScreenMainState, MapNavArgs>(MapScreenMainState(), handle) {
+    @Assisted arg0: SavedStateHandle
+) : BaseViewModel<MapScreenMainState, MapNavArgs>(MapScreenMainState(), arg0) {
 
     private val _planePath = MutableLiveData<List<LatLng>>()
     val planePath = _planePath.toImmutable()

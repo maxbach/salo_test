@@ -10,6 +10,12 @@ import ru.maxbach.aviasales.utils.viewBinding
 
 class MainFragment : BaseFragment<EmptyState, MainScreenViewModel>(R.layout.fragment_main) {
 
+    companion object {
+        fun create() = MainFragment().apply {
+            putNavArgs()
+        }
+    }
+
     private val viewModel by viewModel<MainScreenViewModel>()
     private val viewBinding by viewBinding(FragmentMainBinding::bind)
 

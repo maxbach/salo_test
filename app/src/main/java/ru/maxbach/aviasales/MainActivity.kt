@@ -23,6 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         injectDi()
         setupNavigation()
+
+        if (savedInstanceState == null) {
+            router.newRootScreen(Screens.Main())
+        }
     }
 
     private fun setupNavigation() {
@@ -32,8 +36,6 @@ class MainActivity : AppCompatActivity() {
                         SupportAppNavigator(this, R.id.fragment_host)
                 )
         )
-
-        router.newRootScreen(Screens.Main())
     }
 
     private fun injectDi() {

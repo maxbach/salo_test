@@ -15,9 +15,13 @@ import ru.maxbach.aviasales.feature.map.utils.focusMapOnRoute
 import ru.maxbach.aviasales.feature.map.utils.movePlane
 import ru.maxbach.aviasales.feature.map.utils.setup
 
-class MapFragment(
-    navArgs: MapNavArgs
-) : BaseFragment<MapNavArgs, MapScreenViewModel>(R.layout.fragment_planes, navArgs) {
+class MapFragment : BaseFragment<MapNavArgs, MapScreenViewModel>(R.layout.fragment_planes) {
+
+    companion object {
+        fun create(navArgs: MapNavArgs) = MapFragment().apply {
+            putNavArgs(navArgs)
+        }
+    }
 
     private var planeMarker: Marker? = null
 
@@ -49,7 +53,7 @@ class MapFragment(
         addCityMarker(requireContext(), mainState.cityFrom)
         addCityMarker(requireContext(), mainState.cityTo)
 
-        focusMapOnRoute(mainState.cityFrom.location, mainState.cityTo.location)
+        focusMapOnRoute(requireContext(), mainState.cityFrom.location, mainState.cityTo.location)
     }
 
     private fun getMapAsync(action: GoogleMap.() -> Unit) {

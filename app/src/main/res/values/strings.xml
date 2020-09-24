@@ -6,4 +6,5 @@
 
     <string name="main_button_title">Поiхали</string>
     <string name="search_input_hint_default">Введите город</string>
+    <string name="close_icon_content_descriptor">Закрыть экран</string>
 </resources>

@@ -20,8 +20,8 @@ class MainScreenViewModel @AssistedInject constructor(
     private val rememberLastSearchUseCase: RememberLastSearchUseCase,
     private val addToSearchHistoryNewCityUseCase: AddToSearchHistoryNewCityUseCase,
     private val screenResult: ScreenResult<SearchResult>,
-    @Assisted handle: SavedStateHandle
-) : BaseViewModel<MainScreenState, EmptyState>(MainScreenState(), handle) {
+    @Assisted arg0: SavedStateHandle
+) : BaseViewModel<MainScreenState, EmptyState>(MainScreenState(), arg0) {
 
 
     // TODO: try to move it from here
