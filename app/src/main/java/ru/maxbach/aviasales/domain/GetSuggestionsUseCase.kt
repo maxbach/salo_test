@@ -12,10 +12,9 @@ class GetSuggestionsUseCase @Inject constructor(
     private val searchHistoryRepository: SearchHistoryRepository
 ) {
 
-    //TODO: add logic for choosing language
     operator fun invoke(input: String): Single<Suggestions> = if (input.isNotEmpty()) {
         suggestionsRepository
-            .getSuggestions(input, "ru")
+            .getSuggestions(input)
             .map { Suggestions(it, isFromRecents = false) }
     } else {
         searchHistoryRepository.getSearchHistory()

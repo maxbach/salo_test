@@ -10,7 +10,7 @@ interface SuggestionsNetworkDataSource {
     @GET("autocomplete")
     fun search(
         @Query("term") query: String,
-        @Query("lang") lang: String
+        @Query("lang") lang: String = "ru"
     ): Single<AutocompleteResponse>
 
 }

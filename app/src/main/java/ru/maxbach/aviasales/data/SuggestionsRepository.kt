@@ -10,8 +10,8 @@ class SuggestionsRepository @Inject constructor(
     private val networkDataSource: SuggestionsNetworkDataSource
 ) {
 
-    fun getSuggestions(input: String, lang: String): Single<List<City>> = networkDataSource
-        .search(input, lang)
+    fun getSuggestions(input: String): Single<List<City>> = networkDataSource
+        .search(input)
         .map(AutocompleteResponse::cities)
 
 }
