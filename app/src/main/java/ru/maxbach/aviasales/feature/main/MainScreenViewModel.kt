@@ -13,6 +13,7 @@ import ru.maxbach.aviasales.domain.RememberLastSearchUseCase
 import ru.maxbach.aviasales.domain.models.RoutePoint
 import ru.maxbach.aviasales.feature.search.SearchResult
 import ru.maxbach.aviasales.navigation.ScreenResult
+import ru.maxbach.aviasales.utils.EmptySingleLiveEvent
 
 class MainScreenViewModel @AssistedInject constructor(
     private val coordinator: MainScreenCoordinator,
@@ -23,6 +24,7 @@ class MainScreenViewModel @AssistedInject constructor(
     @Assisted arg0: SavedStateHandle
 ) : BaseViewModel<MainScreenState, EmptyState>(MainScreenState(), arg0) {
 
+    val openTaxiEvent = EmptySingleLiveEvent()
 
     // TODO: try to move it from here
     private lateinit var cityFromChosen: City
@@ -43,7 +45,11 @@ class MainScreenViewModel @AssistedInject constructor(
 
     fun onButtonClicked() {
         rememberLastSearch()
-        coordinator.openPlanes(cityFromChosen, cityToChosen)
+        if (cityFromChosen.id == cityToChosen.id) {
+            openTaxiEvent.call()
+        } else {
+            coordinator.openPlanes(cityFromChosen, cityToChosen)
+        }
     }
 
     private fun getLastSearch() {

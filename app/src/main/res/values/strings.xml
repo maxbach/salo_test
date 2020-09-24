@@ -5,6 +5,10 @@
     <string name="global_input_to_hint">Куда летим</string>
 
     <string name="main_button_title">Поiхали</string>
+    <string name="main_taxi_intent_chooser_title">На чем поедем?</string>
+    <string name="main_no_taxi_apps_toast">Самолеты тут беспомощны. Закажите такси.</string>
+
     <string name="search_input_hint_default">Введите город</string>
-    <string name="close_icon_content_descriptor">Закрыть экран</string>
+    <string name="search_close_icon_content_descriptor">Закрыть экран</string>
+
 </resources>
