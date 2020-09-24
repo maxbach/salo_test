@@ -6,8 +6,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.maxbach.aviasales.di.math.DotsInCurveCount
 import javax.inject.Inject
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.max
 
 class BezierCurveCalculationDataSource @Inject constructor(
     @DotsInCurveCount private val dotsCount: Int
@@ -21,24 +20,46 @@ class BezierCurveCalculationDataSource @Inject constructor(
         val startPoint = from.toPoint()
         val endPoint = to.toPoint()
 
-        return calculatePoints(
-            dotsCount,
-            calculateControlPoints(startPoint, endPoint)
-        )
+        return if (isFlightsCrosses180meridian(startPoint, endPoint)) {
+            val shiftX = 360 - max(startPoint.x, endPoint.x)
+
+            val shiftedStartPoint = startPoint
+                .shiftByX(shiftX)
+                .normalizeByX()
+
+            val shiftedEndPoint = endPoint
+                .shiftByX(shiftX)
+                .normalizeByX()
+
+            calculatePoints(
+                dotsCount,
+                calculateControlPoints(shiftedStartPoint, shiftedEndPoint),
+                shiftX
+            )
+        } else {
+            calculatePoints(
+                dotsCount,
+                calculateControlPoints(startPoint, endPoint)
+            )
+        }
+
     }
 
     private fun calculatePoints(
         dotsCount: Int,
-        controlPoints: ControlPoints
+        controlPoints: ControlPoints,
+        shiftX: Double = 0.0
     ) = (0..dotsCount)
         .map {
             val t = it.toDouble() / dotsCount
-            controlPoints.calculateBezierCurve(t)
+            controlPoints.calculateBezierCurve(t, shiftX)
         }
         .map { it.toLatLng() }
 
 
-    // rhombus. first diagonal size is distance between start and end. second diagonal size is 3/4 of first diagonal
+    // rhombus.
+    // first diagonal size is distance between start and end.
+    // second diagonal size is 3/4 of first diagonal
     private fun calculateControlPoints(start: Point, end: Point): ControlPoints {
         val middle = pointBetween(start, end, 0.5)
 
@@ -54,15 +75,5 @@ class BezierCurveCalculationDataSource @Inject constructor(
 
         return ControlPoints(start, control1, control3, end)
     }
-
-    private fun Point.rotateAround(center: Point, radians: Double) = Point(
-        center.x + (this.x - center.x) * cos(radians) - (this.y - center.y) * sin(radians),
-        center.y + (this.x - center.x) * sin(radians) + (this.y - center.y) * cos(radians)
-    )
-
-    private fun pointBetween(p1: Point, p2: Point, t: Double): Point = Point(
-        p1.x * (1 - t) + p2.x * t,
-        p1.y * (1 - t) + p2.y * t
-    )
 
 }

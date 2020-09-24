@@ -1,15 +1,22 @@
 package ru.maxbach.aviasales.datasource.math
 
 import com.google.maps.android.geometry.Point
-import kotlin.math.pow
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.sin
 
-fun ControlPoints.calculateBezierCurve(t: Double): Point = Point(
-    bezierFun(getXCoordinates(), t),
-    bezierFun(getYCoordinates(), t)
+fun isFlightsCrosses180meridian(start: Point, end: Point) = abs(start.x - end.x) > 180
+
+fun Point.shiftByX(dx: Double) = Point(x + dx, y)
+
+fun Point.normalizeByX() = Point(x % 360.0, y)
+
+fun Point.rotateAround(center: Point, radians: Double) = Point(
+    center.x + (this.x - center.x) * cos(radians) - (this.y - center.y) * sin(radians),
+    center.y + (this.x - center.x) * sin(radians) + (this.y - center.y) * cos(radians)
 )
 
-private fun bezierFun(controlPoints: ControlPointCoordinates, t: Double) =
-    controlPoints.position1 * (1 - t).pow(3) +
-        3 * controlPoints.position2 * (1 - t).pow(2) * t +
-        3 * controlPoints.position3 * (1 - t) * t.pow(2) +
-        controlPoints.position4 * t.pow(3)
+fun pointBetween(p1: Point, p2: Point, t: Double): Point = Point(
+    p1.x * (1 - t) + p2.x * t,
+    p1.y * (1 - t) + p2.y * t
+)

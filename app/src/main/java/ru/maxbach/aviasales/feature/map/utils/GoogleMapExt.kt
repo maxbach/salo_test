@@ -12,6 +12,16 @@ import ru.maxbach.aviasales.feature.map.state.PlanePosition
 private const val CAMERA_WIDTH_EDGE_PADDING_PERCENT = .1f
 private const val CAMERA_HEIGHT_EDGE_PADDING_PERCENT = .2f
 
+private const val MAP_STYLE_JSON = "[\n" +
+    "      {\n" +
+    "         featureType: \"administrative\",\n" +
+    "         elementType: \"geometry.fill\",\n" +
+    "         stylers: [\n" +
+    "            { visibility: \"off\" }\n" +
+    "         ]\n" +
+    "       }\n" +
+    "  ]"
+
 fun GoogleMap.addCityMarker(context: Context, cityMapMarker: CityMapMarker) {
     addMarker(
         MarkerOptions()
@@ -38,6 +48,7 @@ fun Marker.movePlane(planePosition: PlanePosition) {
 fun GoogleMap.setup() {
     uiSettings.isMapToolbarEnabled = false
     uiSettings.isRotateGesturesEnabled = false
+    setMapStyle(MapStyleOptions(MAP_STYLE_JSON))
     isBuildingsEnabled = false
     setMaxZoomPreference(9f)
 }
