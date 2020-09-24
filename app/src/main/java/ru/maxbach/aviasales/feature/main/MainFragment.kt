@@ -6,7 +6,6 @@ import ru.maxbach.aviasales.R
 import ru.maxbach.aviasales.base.fragment.BaseFragment
 import ru.maxbach.aviasales.base.fragment.EmptyState
 import ru.maxbach.aviasales.databinding.FragmentMainBinding
-import ru.maxbach.aviasales.utils.openTaxiApp
 import ru.maxbach.aviasales.utils.viewBinding
 
 class MainFragment : BaseFragment<EmptyState, MainScreenViewModel>(R.layout.fragment_main) {

@@ -1,4 +1,4 @@
-package ru.maxbach.aviasales.utils
+package ru.maxbach.aviasales.feature.main
 
 import android.app.Activity
 import android.content.Intent
