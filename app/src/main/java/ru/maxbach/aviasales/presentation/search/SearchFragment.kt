@@ -2,6 +2,7 @@ package ru.maxbach.aviasales.presentation.search
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,11 +43,20 @@ class SearchFragment :
 
     override fun onStart() {
         super.onStart()
+        requireActivity().window.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+                or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+                or WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED
+        )
         binding.cityInput.showSoftInput()
     }
 
     override fun onStop() {
         super.onStop()
+        requireActivity().window.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+                or WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED
+        )
         requireActivity().hideSoftInput()
     }
 

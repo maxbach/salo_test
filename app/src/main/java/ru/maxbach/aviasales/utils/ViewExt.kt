@@ -11,7 +11,10 @@ import android.view.inputmethod.InputMethodManager
 fun View.showSoftInput() {
     requestFocus()
     val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputManager.showSoftInput(this, InputMethodManager.SHOW_FORCED)
+    inputManager.toggleSoftInput(
+        InputMethodManager.SHOW_FORCED,
+        InputMethodManager.HIDE_IMPLICIT_ONLY
+    )
 }
 
 fun Activity.hideSoftInput() {

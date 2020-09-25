@@ -33,6 +33,7 @@
         android:layout_marginStart="32dp"
         android:background="@null"
         android:hint="@string/search_input_hint_default"
+        android:imeOptions="flagNoExtractUi"
         android:importantForAutofill="no"
         android:inputType="textCapWords"
         android:textColor="@android:color/white"
