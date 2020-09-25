@@ -27,7 +27,7 @@ fun Activity.openTaxiApp() {
         else -> {
             Toast.makeText(
                 this,
-                getString(R.string.main_taxi_intent_chooser_title),
+                getString(R.string.main_no_taxi_apps_toast),
                 Toast.LENGTH_LONG
             ).show()
         }

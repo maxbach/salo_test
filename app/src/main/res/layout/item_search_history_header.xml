@@ -12,7 +12,7 @@
         android:paddingTop="12dp"
         android:paddingEnd="16dp"
         android:paddingBottom="12dp"
-        android:text="Вы уже искали"
+        android:text="@string/search_history_header_title"
         android:textAllCaps="true"
         android:textColor="@android:color/black"
         android:textSize="12sp" />
