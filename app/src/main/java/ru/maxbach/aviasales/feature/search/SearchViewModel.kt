@@ -23,8 +23,7 @@ class SearchViewModel @AssistedInject constructor(
 
     private val cityInputSubject = BehaviorSubject.createDefault("")
 
-    // TODO: try to remove this field
-    private lateinit var cities: List<City>
+    private lateinit var loadedCities: List<City>
 
     init {
         observeCityInput()
@@ -39,7 +38,7 @@ class SearchViewModel @AssistedInject constructor(
     }
 
     fun onCityClicked(cityId: Long) {
-        val chosenCity = cities.find { it.id == cityId }
+        val chosenCity = loadedCities.find { it.id == cityId }
             ?: throw IllegalStateException("There is no such city in cached")
 
         screenResult.onNext(SearchResult(chosenCity, navArgs.routePoint))
@@ -57,7 +56,7 @@ class SearchViewModel @AssistedInject constructor(
             .switchMapSingle(getSuggestionsUseCase::invoke)
             .observeOn(AndroidSchedulers.mainThread())
             .untilDestroy(onNext = { newSuggestions ->
-                cities = newSuggestions.cities
+                loadedCities = newSuggestions.cities
 
                 val viewItems = convertSuggestionsToUiItemsUseCase.invoke(newSuggestions)
                 updateState { currentState -> currentState.copy(suggestions = viewItems) }

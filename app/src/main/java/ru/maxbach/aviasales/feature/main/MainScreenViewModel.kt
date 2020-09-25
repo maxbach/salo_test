@@ -26,9 +26,8 @@ class MainScreenViewModel @AssistedInject constructor(
 
     val openTaxiEvent = EmptySingleLiveEvent()
 
-    // TODO: try to move it from here
-    private lateinit var cityFromChosen: City
-    private lateinit var cityToChosen: City
+    private lateinit var chosenCityFrom: City
+    private lateinit var chosenCityTo: City
 
     init {
         observeSearchScreenResult()
@@ -45,10 +44,10 @@ class MainScreenViewModel @AssistedInject constructor(
 
     fun onButtonClicked() {
         rememberLastSearch()
-        if (cityFromChosen.id == cityToChosen.id) {
+        if (chosenCityFrom.id == chosenCityTo.id) {
             openTaxiEvent.call()
         } else {
-            coordinator.openPlanes(cityFromChosen, cityToChosen)
+            coordinator.openPlanes(chosenCityFrom, chosenCityTo)
         }
     }
 
@@ -79,19 +78,19 @@ class MainScreenViewModel @AssistedInject constructor(
     }
 
     private fun updateScreenState(cityFrom: City? = null, cityTo: City? = null) {
-        if (cityFrom != null) cityFromChosen = cityFrom
-        if (cityTo != null) cityToChosen = cityTo
+        if (cityFrom != null) chosenCityFrom = cityFrom
+        if (cityTo != null) chosenCityTo = cityTo
 
         updateState {
             MainScreenState(
-                cityFrom = cityFromChosen.fullName,
-                cityTo = cityToChosen.fullName
+                cityFrom = chosenCityFrom.fullName,
+                cityTo = chosenCityTo.fullName
             )
         }
     }
 
     private fun rememberLastSearch() {
-        rememberLastSearchUseCase(cityFromChosen, cityToChosen)
+        rememberLastSearchUseCase(chosenCityFrom, chosenCityTo)
             .untilDestroy()
     }
 
