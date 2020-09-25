@@ -5,7 +5,7 @@ import com.google.maps.android.SphericalUtil
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.maxbach.aviasales.data.BezierCurveRepository
-import ru.maxbach.aviasales.feature.map.state.PlanePosition
+import ru.maxbach.aviasales.presentation.map.state.PlanePosition
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

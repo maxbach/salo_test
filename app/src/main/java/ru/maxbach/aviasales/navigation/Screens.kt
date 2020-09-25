@@ -1,10 +1,10 @@
 package ru.maxbach.aviasales.navigation
 
-import ru.maxbach.aviasales.feature.main.MainFragment
-import ru.maxbach.aviasales.feature.map.MapFragment
-import ru.maxbach.aviasales.feature.map.MapNavArgs
-import ru.maxbach.aviasales.feature.search.SearchFragment
-import ru.maxbach.aviasales.feature.search.SearchScreenNavArgs
+import ru.maxbach.aviasales.presentation.main.MainFragment
+import ru.maxbach.aviasales.presentation.map.MapFragment
+import ru.maxbach.aviasales.presentation.map.MapNavArgs
+import ru.maxbach.aviasales.presentation.search.SearchFragment
+import ru.maxbach.aviasales.presentation.search.SearchScreenNavArgs
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {

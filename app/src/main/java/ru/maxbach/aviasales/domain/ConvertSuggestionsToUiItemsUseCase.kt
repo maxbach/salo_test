@@ -2,7 +2,7 @@ package ru.maxbach.aviasales.domain
 
 import ru.maxbach.aviasales.datasource.network.model.City
 import ru.maxbach.aviasales.domain.models.Suggestions
-import ru.maxbach.aviasales.feature.search.adapter.SearchItem
+import ru.maxbach.aviasales.presentation.search.adapter.SearchItem
 import ru.maxbach.aviasales.utils.addToBeginIfNotNull
 import javax.inject.Inject
 

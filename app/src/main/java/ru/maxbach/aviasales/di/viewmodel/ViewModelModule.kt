@@ -5,9 +5,9 @@ import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import ru.maxbach.aviasales.feature.main.MainScreenViewModel
-import ru.maxbach.aviasales.feature.map.MapScreenViewModel
-import ru.maxbach.aviasales.feature.search.SearchViewModel
+import ru.maxbach.aviasales.presentation.main.MainScreenViewModel
+import ru.maxbach.aviasales.presentation.map.MapScreenViewModel
+import ru.maxbach.aviasales.presentation.search.SearchViewModel
 
 @Module(includes = [ViewModelAssistedFactoriesModule::class])
 interface ViewModelModule {
