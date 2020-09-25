@@ -1,13 +1,13 @@
 package ru.maxbach.aviasales.presentation.map.utils
 
 import android.content.Context
-import android.content.res.Configuration
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
 import ru.maxbach.aviasales.R
 import ru.maxbach.aviasales.presentation.map.state.CityMapMarker
 import ru.maxbach.aviasales.presentation.map.state.PlanePosition
+import ru.maxbach.aviasales.utils.isInPortraitMode
 
 private const val CAMERA_WIDTH_EDGE_PADDING_PERCENT = .1f
 private const val CAMERA_HEIGHT_EDGE_PADDING_PERCENT = .2f
@@ -76,7 +76,7 @@ fun GoogleMap.drawPlanePath(context: Context, planePath: List<LatLng>) {
 }
 
 private fun Context.calculateCameraPadding(width: Int, height: Int): Int {
-    val padding = if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+    val padding = if (isInPortraitMode) {
         width * CAMERA_WIDTH_EDGE_PADDING_PERCENT
     } else {
         height * CAMERA_HEIGHT_EDGE_PADDING_PERCENT
