@@ -16,7 +16,7 @@ Contains fields "city of departure", "city of destination" and a "search" button
 
 The map shows the path between the points. An airplane flies along this path. The path shape is a Bezier curve.
 
-## Stack of technologies
+## Technologies
 
 Kotlin, Android Arch Components, RxJava3, Dagger2, Retrofit
 
