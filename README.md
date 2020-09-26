@@ -9,9 +9,11 @@ It is necessary to make an animation of waiting for the search results for ticke
 The application consists of two main screens:
 
 1. Direction selection screen
+
 Contains fields "city of departure", "city of destination" and a "search" button.
 
 2. Map screen
+
 The map shows the path between the points. An airplane flies along this path. The path shape is a Bezier curve.
 
 ## Stack of technologies
