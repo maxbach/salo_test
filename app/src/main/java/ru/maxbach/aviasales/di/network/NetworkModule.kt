@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import ru.maxbach.aviasales.BuildConfig
-import ru.maxbach.aviasales.datasource.network.SuggestionsNetworkDataSource
+import ru.maxbach.aviasales.data.datasource.network.SuggestionsNetworkDataSource
 import javax.inject.Singleton
 
 @Module

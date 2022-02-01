@@ -2,8 +2,8 @@ package ru.maxbach.aviasales.di.navigation
 
 import dagger.Module
 import dagger.Provides
-import ru.maxbach.aviasales.navigation.ScreenResult
-import ru.maxbach.aviasales.presentation.search.SearchResult
+import ru.maxbach.aviasales.presentation.navigation.ScreenResult
+import ru.maxbach.aviasales.presentation.features.search.SearchResult
 import javax.inject.Singleton
 
 @Module

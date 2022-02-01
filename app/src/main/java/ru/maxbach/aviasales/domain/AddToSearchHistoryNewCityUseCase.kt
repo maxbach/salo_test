@@ -1,8 +1,8 @@
 package ru.maxbach.aviasales.domain
 
 import io.reactivex.rxjava3.core.Completable
-import ru.maxbach.aviasales.data.SearchHistoryRepository
-import ru.maxbach.aviasales.datasource.network.model.City
+import ru.maxbach.aviasales.data.repo.SearchHistoryRepository
+import ru.maxbach.aviasales.data.datasource.network.model.City
 import javax.inject.Inject
 
 class AddToSearchHistoryNewCityUseCase @Inject constructor(
